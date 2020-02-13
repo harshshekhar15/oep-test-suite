@@ -9,6 +9,9 @@ github_password=$2
 ## Run Prerequisites
 echo -e "\n Running Prerequisites  *********************************************************************\n";
 
+echo -e "\n********* [ Making logs directory ] **********\n";
+mkdir -p logs/basic-sanity-tests -v
+
 echo -e "\n**** [ Cloning OEP test-suite directory ] ****\n";
 git clone https://$github_username:$github_password@github.com/mayadata-io/oep.git
 
