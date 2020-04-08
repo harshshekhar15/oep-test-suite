@@ -1,11 +1,5 @@
 #!/bin/bash
 
-## Env variables
-
-github_username=$1
-github_password=$2
-
-
 ## Run Prerequisites
 echo -e "\n Running Prerequisites  *********************************************************************\n";
 
@@ -13,15 +7,7 @@ echo -e "\n********* [ Making logs directory ] **********\n";
 mkdir -p logs/basic-sanity-tests -v
 
 echo -e "\n**** [ Cloning OEP test-suite directory ] ****\n";
-git clone https://$github_username:$github_password@github.com/mayadata-io/oep.git
-
-# Setup litmus on the cluster
-echo -e "\n************ [ Setting up Litmus ] ************\n"
-kubectl apply -f oep/litmus/prerequisite/rbac.yaml
-kubectl apply -f oep/litmus/prerequisite/crds.yaml
-
-# Creating docker secret to be used by litmus jobs 
-kubectl apply -f oep/litmus/prerequisite/docker-secret.yml -n litmus
+git clone https://github.com/mayadata-io/oep.git
 
 ## Run OEP basic sanity checks
 echo -e "\n Running OEP Basic Sanity Checks ************************************************************\n";
@@ -139,11 +125,6 @@ echo -e "\n------------------------------------------" >> result.txt
 
 ## Run cleanup
 echo -e "\n Running Cleanup ***************************************************************************\n";
-
-echo -e "\n************ [ Cleaning up Litmus ] ************\n"
-kubectl delete job -n litmus --all;
-kubectl delete -f oep/litmus/prerequisite/crds.yaml
-kubectl delete -f oep/litmus/prerequisite/rbac.yaml
 
 echo -e "\n*** [ Cleaning up OEP test-suite directory ] ***\n";
 rm -rf oep;
